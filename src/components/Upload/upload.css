@@ -1,0 +1,35 @@
+.btn{
+  border: 1px solid #FF9933;
+}
+.btn:hover {
+  border: 1px solid #FF9933;
+}
+.btn:active {
+  border: 1px solid #FF9933;
+}
+.btn:focus {
+  border: 1px solid #FF9933;
+}
+.btn:focus-visible {
+  border: 1px solid #FF9933;
+  outline: none;
+}
+.btn.show{
+  border: 1px solid #FF9933;
+}
+.dropdown-menu{
+  border: 1px solid #FF9933;
+}
+.dropdown-menu:focus-visible {
+  border: 1px solid #FF9933;
+  outline: none;
+}
+.dropdown-item{
+  margin-bottom: 2px;
+  
+}
+
+.dropzone{
+  
+}
+

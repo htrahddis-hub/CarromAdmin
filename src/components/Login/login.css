@@ -1,0 +1,18 @@
+.form-check-input:checked {
+  background-color: #ff9933;
+  border-color: #ff9933;
+}
+.form-check-input:focus {
+  box-shadow: none;
+  border-color: #0000005e;
+}
+.form-check-input {
+  height: 14px;
+  width: 14px;
+}
+.form-check {
+  height: 20px;
+}
+.navbar{
+  --bs-navbar-padding-y: 0;
+}

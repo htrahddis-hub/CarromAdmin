@@ -1,0 +1,6 @@
+
+.hover:hover{
+  cursor: pointer;
+  text-decoration: underline;
+  color: rgb(104, 104, 104);
+}

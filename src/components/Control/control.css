@@ -1,0 +1,12 @@
+.addsymbol {
+  border-radius: 16px;
+  background: rgb(211, 206, 206);
+  height: 32px;
+  width: 32px;
+  font-size: 18px;
+  font-weight: 900;
+  padding-bottom: 2px;
+  padding-left: 1px;
+  color: rgb(104, 106, 106);
+  cursor: pointer;
+}
