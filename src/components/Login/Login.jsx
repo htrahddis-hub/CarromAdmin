@@ -1,11 +1,13 @@
 import React from "react";
 import google from "../../assests/image 3.png";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
     <>
-      <nav class="navbar navbar-dark" style={{background:"#6c665bc7"}}>
+      <nav class="navbar navbar-dark" style={{ background: "#6c665bc7" }}>
         <div class="container-fluid">
           <a class="navbar-brand" href="#">
             Admin Login Page
@@ -125,6 +127,10 @@ const Login = () => {
                   borderRadius: "35px",
                   backgroundColor: "#FF9933",
                   color: "white",
+                }}
+                onClick={() => {
+                  navigate("/dashboard");
+                  window.location.reload();
                 }}
               >
                 Login

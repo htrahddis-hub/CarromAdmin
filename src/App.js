@@ -36,7 +36,7 @@ function App() {
             className={
               window.location.pathname === "/" ? "col-12 p-0" : "col-10"
             }
-            style={{overflow:"auto", height:"100vh"}}
+            style={{ overflow: "auto", height: "100vh" }}
           >
             <Routes>
               <Route path="/" element={<Login />} />
