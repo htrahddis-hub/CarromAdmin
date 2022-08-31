@@ -146,10 +146,11 @@ const Upload = () => {
       <div className="row mb-3" style={{ fontSize: "20px", fontWeight: "600" }}>
         Uploaded
         <div className="d-flex">
-          {[...Array(4)].map(() => (
-            <div>
+          {[...Array(4)].map((_,id) => (
+            <div key={id}>
               <img
                 src={img}
+                alt="no img found"
                 style={{ borderRadius: "8px" }}
                 className="p-3 border mt-3 me-3"
               />

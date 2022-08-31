@@ -2,16 +2,32 @@ import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaUser, FaCoins, FaChalkboardTeacher } from "react-icons/fa";
 import "./dashboard.css";
+import { GetDashboard } from "../../api";
+
+const Dateinmonth = () => {
+  const dt = new Date();
+  const month = dt.getMonth();
+  const year = dt.getFullYear();
+  return `${year}${"-"}${month < 10 ? `0${month + 1}` : `${month + 1}`}`;
+};
 
 const Dashboard = () => {
-  const Dateinmonth = () => {
-    const dt = new Date();
-    const month = dt.getMonth();
-    const year = dt.getFullYear();
-    return `${year}${"-"}${month < 10 ? `0${month + 1}` : `${month + 1}`}`;
-  };
-
   const [date, setDate] = React.useState(Dateinmonth());
+  const [dashData, setDashSata] = React.useState({
+    totalDeposits: 0,
+    totalRevenue: 0,
+    totalWithdawals: 0,
+    users:0
+  });
+
+  React.useState(() => {
+    const fetchData = async () => {
+      const data = await GetDashboard();
+      if (data.success && data.message === "Fetched Successfuly!")
+        setDashSata(data.data);
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="container-fluid">
@@ -31,11 +47,11 @@ const Dashboard = () => {
               Total Users
             </div>
             <div className="h3" style={{ color: "#FF9933" }}>
-              12,00,682
+              {dashData.users}
             </div>
           </div>
         </div>
-        <div className="d-flex flex-column justify-content-between align-items-end">
+        <div className="d-flex col-6 flex-column justify-content-between align-items-end">
           <div
             className="d-flex justify-content-end py-2 pe-2 ps-4"
             style={{ border: "1px solid #FF9933", borderRadius: "5px" }}
@@ -92,7 +108,7 @@ const Dashboard = () => {
               >
                 <FaCoins size={20} />
               </div>{" "}
-              <div> 120068</div>
+              <div>₹ {dashData.totalRevenue}</div>
             </div>
           </div>
           <div
@@ -122,7 +138,7 @@ const Dashboard = () => {
               >
                 <FaCoins size={20} />
               </div>{" "}
-              <div> 120068</div>
+              <div>₹ {dashData.totalDeposits}</div>
             </div>
           </div>
           <div
@@ -152,7 +168,7 @@ const Dashboard = () => {
               >
                 <FaCoins size={20} />
               </div>
-              <div> 120068</div>
+              <div>₹ {dashData.totalWithdawals}</div>
             </div>
           </div>
         </div>

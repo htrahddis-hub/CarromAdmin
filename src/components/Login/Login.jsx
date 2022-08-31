@@ -1,10 +1,31 @@
 import React from "react";
 import google from "../../assests/image 3.png";
 import { useNavigate } from "react-router-dom";
+import { LoginAdmin } from "../../api";
+import Cookies from "js-cookie";
 import "./login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [user, setUser] = React.useState({ email: "", password: "" });
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const data = await LoginAdmin(user.email, user.password);
+    if (data.success && data.message === "Login Successfuly!") {
+      Cookies.set("token", data.data.token);
+      Cookies.set("user", data.data.user);
+      navigate("/dashboard");
+      window.location.reload();
+    }
+  };
+
+  const handleChange = (e) => {
+    setUser((old) => {
+      return { ...old, [e.target.name]: e.target.value };
+    });
+  };
+
   return (
     <>
       <nav class="navbar navbar-dark" style={{ background: "#6c665bc7" }}>
@@ -49,7 +70,7 @@ const Login = () => {
                 style={{ borderBottom: "1px solid #00000082", width: "35%" }}
               ></div>
             </div>
-            <form>
+            <form onSubmit={handleLogin}>
               <div class="mb-3">
                 <label
                   for="exampleInputEmail1"
@@ -64,6 +85,9 @@ const Login = () => {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   placeholder="rp12321@gmail.com"
+                  name="email"
+                  value={user.email}
+                  onChange={handleChange}
                   style={{
                     border: "1px solid rgb(0 0 0 / 50%)",
                     borderRadius: "35px",
@@ -85,6 +109,9 @@ const Login = () => {
                   class="form-control"
                   id="exampleInputPassword1"
                   placeholder="******"
+                  name="password"
+                  value={user.password}
+                  onChange={handleChange}
                   style={{
                     border: "1px solid rgb(0 0 0 / 50%)",
                     borderRadius: "35px",
@@ -121,16 +148,13 @@ const Login = () => {
               </div>
               <button
                 className="mt-4 container py-2"
+                type="submit"
                 style={{
                   background: "#FFFFFF",
                   border: "none",
                   borderRadius: "35px",
                   backgroundColor: "#FF9933",
                   color: "white",
-                }}
-                onClick={() => {
-                  navigate("/dashboard");
-                  window.location.reload();
                 }}
               >
                 Login
