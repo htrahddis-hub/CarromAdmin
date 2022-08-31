@@ -56,12 +56,24 @@ const Transaction = () => {
   const handleApproval = async (id) => {
     const res = await ManageDeposits(id, "Accepted");
     if (res.success && res.message === "Updated Successfuly!") {
+      setData((old) => {
+        return {
+          ...old,
+          details: old.details.filter((item) => item._id !== id),
+        };
+      });
     }
   };
 
   const handleRejection = async (id) => {
     const res = await ManageDeposits(id, "Rejected");
     if (res.success && res.message === "Updated Successfuly!") {
+      setData((old) => {
+        return {
+          ...old,
+          details: old.details.filter((item) => item._id !== id),
+        };
+      });
     }
   };
 

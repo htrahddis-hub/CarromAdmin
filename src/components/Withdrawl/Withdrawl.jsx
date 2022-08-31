@@ -85,7 +85,7 @@ const Transaction = () => {
           className="col-6 ps-4"
           style={{ fontSize: "22px", fontWeight: "600", color: "#FF9933" }}
         >
-          Transaction Management
+          Withdrawal Management
         </div>
         <div className="col-6 d-flex flex-column justify-content-between align-items-end">
           <div
