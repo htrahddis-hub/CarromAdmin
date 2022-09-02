@@ -1,6 +1,6 @@
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { FaUser, FaCoins, FaChalkboardTeacher } from "react-icons/fa";
+import { FaCoins } from "react-icons/fa";
 import "./dashboard.css";
 import { GetDashboard } from "../../api";
 

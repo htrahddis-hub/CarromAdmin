@@ -1,12 +1,12 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { SidebarContext } from "../../App";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./sidebar.css";
 import { RiDashboardFill } from "react-icons/ri";
 import { FaUser, FaCoins, FaChalkboardTeacher } from "react-icons/fa";
 import { MdUpload } from "react-icons/md";
 import { IoGameControllerSharp } from "react-icons/io5";
 import { RiLockPasswordFill } from "react-icons/ri";
+import Cookies from "js-cookie";
 
 const button = [
   {
@@ -17,7 +17,7 @@ const button = [
     id: 0,
   },
   {
-    url: "/usermanage",
+    url: "/user",
     icon: <FaUser size={25} />,
     title: "User Management",
     active: false,
@@ -31,21 +31,21 @@ const button = [
     id: 2,
   },
   {
-    url: "/planmanage",
+    url: "/plan",
     icon: <FaChalkboardTeacher size={25} />,
     title: "Plan Management",
     active: false,
     id: 3,
   },
   {
-    url: "/transaction",
+    url: "/deposit",
     icon: <FaCoins size={25} />,
     title: "Transaction Mnagment",
     active: false,
     id: 4,
   },
   {
-    url: "/withdrawl",
+    url: "/withdawal",
     icon: <FaCoins size={25} />,
     title: "Withdrawl Mnagement",
     active: false,
@@ -83,10 +83,14 @@ const button = [
 
 const Sidebar = () => {
   const location = useLocation();
-  const { hide } = React.useContext(SidebarContext);
-  const [active, setActive] = React.useState(false);
-
-  const [activebtn, setActivebtn] = React.useState(button);
+  const navigate = useNavigate();
+  const filteredbtn = button.filter((element) => {
+    const userString = Cookies.get("user");
+    const user = JSON.parse(userString ? userString : "{}");
+    if (user.role === "Admin") return true;
+    return user[element.url.substring(1)];
+  });
+  const [activebtn, setActivebtn] = React.useState(filteredbtn);
 
   React.useEffect(() => {
     setActivebtn((old) => {
@@ -97,7 +101,17 @@ const Sidebar = () => {
       );
       return [...old];
     });
-  }, [location.pathname]);
+    const userString = Cookies.get("user");
+    const user = JSON.parse(userString ? userString : "{}");
+    if (user.role === "Subadmin") {
+      const key = Object.keys(user).find(
+        (ele) => ele === location.pathname.substring(1)
+      );
+      if (!user[key]) {
+        navigate(-1);
+      }
+    }
+  }, [location.pathname, navigate]);
 
   const handleChange = (id) => {
     setActivebtn((old) => {

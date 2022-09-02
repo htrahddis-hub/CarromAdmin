@@ -63,17 +63,6 @@ const Revenue = () => {
           style={{ color: "#FF9933", fontSize: "22px", fontWeight: "500" }}
         >
           <div>Revenue</div>
-          <input
-            type="month"
-            style={{
-              border: "none",
-              fontSize: "20px",
-              width: "180px",
-              fontWeight: "500",
-            }}
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
         </div>
         <div className="d-flex justify-content-start mt-3">
           <div
@@ -173,15 +162,15 @@ const Revenue = () => {
           className="d-flex align-items-center justify-content-end"
           style={{ marginTop: "40px" }}
         >
-          <div class="form-check me-5">
+          <div className="form-check me-5">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="checkbox"
               checked={check}
               id="datecheck"
               onChange={handleCheck}
             />
-            <label class="form-check-label" for="datecheck">
+            <label className="form-check-label" htmlFor="datecheck">
               At date
             </label>
           </div>
@@ -204,7 +193,7 @@ const Revenue = () => {
       >
         {data?.details.length > 0 ? (
           <>
-            <table class="table table-borderless ">
+            <table className="table table-borderless ">
               <thead style={{ borderBottom: "0.5px solid #28318C" }}>
                 <tr>
                   <th scope="col">S.No</th>
@@ -236,7 +225,7 @@ const Revenue = () => {
         ) : (
           <div style={{ margin: " 6em 0" }}>
             <div className="loading-main">
-              <div class="loader"></div>
+              <div className="loader"></div>
             </div>
           </div>
         )}

@@ -266,7 +266,7 @@ const Planmanage = () => {
             className="row mb-4 ms-1"
             style={{ color: "#FF9933", fontSize: "25px", fontWeight: "500" }}
           >
-            Tournament
+            Tournaments
           </div>
           <div className="d-flex justify-content-start my-4 align-items-center flex-wrap">
             {planData.map((item, id) => (
@@ -277,6 +277,7 @@ const Planmanage = () => {
                   borderRadius: "15px",
                   width: "230px",
                 }}
+                key={item._id}
               >
                 <div
                   className="d-flex justify-content-between"
@@ -285,9 +286,8 @@ const Planmanage = () => {
                     fontWeight: "600",
                     width: "100%",
                   }}
-                  key={item._id}
                 >
-                  <div>Coupon {id + 1}</div>{" "}
+                  <div>Tournament {id + 1}</div>{" "}
                   <div>
                     <AiFillEdit
                       style={{ cursor: "pointer" }}

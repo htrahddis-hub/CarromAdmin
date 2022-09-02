@@ -14,7 +14,7 @@ const Login = () => {
     const data = await LoginAdmin(user.email, user.password);
     if (data.success && data.message === "Login Successfuly!") {
       Cookies.set("token", data.data.token);
-      Cookies.set("user", data.data.user);
+      Cookies.set("user", JSON.stringify(data?.data.user));
       navigate("/dashboard");
       window.location.reload();
     }
@@ -28,11 +28,11 @@ const Login = () => {
 
   return (
     <>
-      <nav class="navbar navbar-dark" style={{ background: "#6c665bc7" }}>
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
+      <nav className="navbar navbar-dark" style={{ background: "#6c665bc7" }}>
+        <div className="container-fluid">
+          <p className="navbar-brand" >
             Admin Login Page
-          </a>
+          </p>
         </div>
       </nav>
       <div className="container-fluid">
@@ -56,7 +56,7 @@ const Login = () => {
                 borderRadius: "35px",
               }}
             >
-              <img src={google} height="30px" />
+              <img src={google} height="30px" alt="No Img Found"/>
               <div className="ms-2">Continue with Google</div>
             </button>
             <div className="d-flex justify-content-between align-items-center my-4">
@@ -71,17 +71,17 @@ const Login = () => {
               ></div>
             </div>
             <form onSubmit={handleLogin}>
-              <div class="mb-3">
+              <div className="mb-3">
                 <label
-                  for="exampleInputEmail1"
-                  class="form-label"
+                  htmlFor="exampleInputEmail1"
+                  className="form-label"
                   style={{ fontSize: "small", fontWeight: "500" }}
                 >
                   Email address
                 </label>
                 <input
                   type="email"
-                  class="form-control"
+                  className="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   placeholder="rp12321@gmail.com"
@@ -96,17 +96,17 @@ const Login = () => {
                   }}
                 />
               </div>
-              <div class="mb-3">
+              <div className="mb-3">
                 <label
-                  for="exampleInputPassword1"
-                  class="form-label"
+                  htmlFor="exampleInputPassword1"
+                  className="form-label"
                   style={{ fontSize: "small", fontWeight: "500" }}
                 >
                   Password
                 </label>
                 <input
                   type="password"
-                  class="form-control"
+                  className="form-control"
                   id="exampleInputPassword1"
                   placeholder="******"
                   name="password"
@@ -121,15 +121,15 @@ const Login = () => {
                 />
               </div>
               <div className="d-flex justify-content-between align-items-center">
-                <div class="mb-3 form-check">
+                <div className="mb-3 form-check">
                   <input
                     type="checkbox"
-                    class="form-check-input"
+                    className="form-check-input"
                     id="exampleCheck1"
                   />
                   <label
-                    class="form-check-label"
-                    for="exampleCheck1"
+                    className="form-check-label"
+                    htmlFor="exampleCheck1"
                     style={{ fontSize: "13px", fontWeight: "500" }}
                   >
                     Remember me
