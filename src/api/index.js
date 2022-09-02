@@ -203,3 +203,129 @@ export const GetRevenueGraph = async () => {
     console.log(err);
   }
 };
+
+export const GetSpinPlan = async () => {
+  try {
+    const { data } = await axios.get(url + "/spinplan", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const UpdateSpinPlan = async (input) => {
+  try {
+    const { data } = await axios.post(
+      url + "/updateCaromplan",
+      {
+        violet: input.violet,
+        // purple: input.purple,
+        // white: input.white,
+        // red: input.red,
+        // blue: input.blue,
+        // green: input.green,
+        // orange: input.orange,
+        // yellow: input.yellow,
+        id: input._id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const GetCarromPlan = async () => {
+  try {
+    const { data } = await axios.get(url + "/caromplan", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const AddCarromPlan = async (input, image) => {
+  try {
+    const { data } = await axios.post(
+      url + "/addCaromplan",
+      {
+        entryFee: input.entryFee,
+        prize: input.prize,
+        image: image,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const UpdateCarromPlan = async (input, image) => {
+  try {
+    const { data } = await axios.post(
+      url + "/updateCaromplan",
+      {
+        entryFee: input.entryFee,
+        prize: input.prize,
+        image: image,
+        id: input._id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const DeleteCarromPlan = async (id) => {
+  try {
+    const { data } = await axios.post(
+      url + "/deleteCaromplan",
+      {
+        id: id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const GetUploads = async () => {
+  try {
+    const { data } = await axios.get(url + "/uploads", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const UpdateUploads = async (id, image) => {
+  try {
+    const { data } = await axios.post(
+      url + "/updateUploads",
+      {
+        ...image,
+        id: id,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};

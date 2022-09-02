@@ -35,7 +35,7 @@ const LineChart = () => {
   );
 
   const data1 = {
-    labels: [...Array(31)].map((_, id) => `${id + 1} August`),
+    labels: [...Array(30)].map((_, id) => `${id + 1} September`),
     datasets: [
       {
         label: "Cash-Flow",
@@ -58,6 +58,7 @@ const LineChart = () => {
             return "₹ " + value;
           },
         },
+        min: 0,
       },
     },
   };

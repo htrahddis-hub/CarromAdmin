@@ -431,7 +431,7 @@ const Control = () => {
                   color: "#6A6A6A",
                 }}
               >
-                Min amount added
+                Max amount added
               </div>
               <input
                 type="text"

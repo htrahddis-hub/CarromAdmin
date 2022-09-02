@@ -1,6 +1,28 @@
-
-.hover:hover{
+.hover:hover {
   cursor: pointer;
   text-decoration: underline;
   color: rgb(104, 104, 104);
+}
+
+.add-symbol-big {
+  border-radius: 40px;
+  background: rgb(211, 206, 206);
+  height: 80px;
+  width: 80px;
+  font-size: 50px;
+  font-weight: 900;
+  padding-bottom: 10px;
+  color: rgb(104, 106, 106);
+  cursor: pointer;
+}
+
+.button-style {
+  margin-top: 5px;
+  width: 100px;
+  border: none;
+  height: 40px;
+  border-radius: 3px;
+  background: #ff9933;
+  color: white;
+  font-size: 18px;
 }
