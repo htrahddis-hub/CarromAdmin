@@ -30,7 +30,7 @@ const Login = () => {
     <>
       <nav className="navbar navbar-dark" style={{ background: "#6c665bc7" }}>
         <div className="container-fluid">
-          <p className="navbar-brand" >
+          <p className="navbar-brand my-0" >
             Admin Login Page
           </p>
         </div>
