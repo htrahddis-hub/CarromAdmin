@@ -275,7 +275,8 @@ const Planmanage = () => {
                 style={{
                   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.25)",
                   borderRadius: "15px",
-                  width: "230px",
+                  
+                  // width: "230px",
                 }}
                 key={item._id}
               >
@@ -290,11 +291,11 @@ const Planmanage = () => {
                   <div>Tournament {id + 1}</div>{" "}
                   <div>
                     <AiFillEdit
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: "pointer",marginLeft:"25px" }}
                       onClick={() => handleEdit(item._id)}
                     />
                     <AiFillDelete
-                      style={{ cursor: "pointer", marginLeft: "10px" }}
+                      style={{ cursor: "pointer", marginLeft: "5px" }}
                       onClick={() => handleDelete(item._id)}
                     />
                   </div>
