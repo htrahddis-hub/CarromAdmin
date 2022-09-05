@@ -219,16 +219,16 @@ export const GetSpinPlan = async () => {
 export const UpdateSpinPlan = async (input) => {
   try {
     const { data } = await axios.post(
-      url + "/updateCaromplan",
+      url + "/updateSpinplan",
       {
         violet: input.violet,
-        // purple: input.purple,
-        // white: input.white,
-        // red: input.red,
-        // blue: input.blue,
-        // green: input.green,
-        // orange: input.orange,
-        // yellow: input.yellow,
+        purple: input.purple,
+        white: input.white,
+        red: input.red,
+        blue: input.blue,
+        green: input.green,
+        orange: input.orange,
+        yellow: input.yellow,
         id: input._id,
       },
       { headers: { Authorization: `Bearer ${token}` } }
@@ -324,6 +324,191 @@ export const UpdateUploads = async (id, image) => {
       {
         headers: { Authorization: `Bearer ${token}` },
       }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const GetFAQ = async () => {
+  try {
+    const { data } = await axios.get(url + "/faq", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const AddFAQ = async (inputData) => {
+  try {
+    const { data } = await axios.post(
+      url + "/addFAQ",
+      {
+        ...inputData,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const UpdateFAQ = async (input) => {
+  try {
+    const { data } = await axios.post(
+      url + "/updateFAQ",
+      {
+        question: input.question,
+        answer: input.answer,
+        id: input._id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const DeleteFAQ = async (id) => {
+  try {
+    const { data } = await axios.post(
+      url + "/deleteFAQ",
+      {
+        id: id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const GetControl = async () => {
+  try {
+    const { data } = await axios.get(url + "/controls", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const UpdateControls = async (input) => {
+  try {
+    const { data } = await axios.post(
+      url + "/updateControl",
+      {
+        ...input,
+        id: input._id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const AddDeposit = async (input, image) => {
+  try {
+    const { data } = await axios.post(
+      url + "/addDepositMethod",
+      {
+        method: {
+          name: input,
+          image: image,
+        },
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const AddWithdrawal = async (input, image) => {
+  try {
+    const { data } = await axios.post(
+      url + "/addWithdawalMethod",
+      {
+        method: {
+          name: input,
+          image: image,
+        },
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const AddCoupon = async (input) => {
+  try {
+    const { data } = await axios.post(
+      url + "/addCoupon",
+      {
+        coupon: {
+          ...input,
+        },
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const DeleteDeposit = async (id) => {
+  try {
+    const { data } = await axios.post(
+      url + "/deleteDepositMethod",
+      {
+        methodId: id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const DeleteWithdrawal = async (id) => {
+  try {
+    const { data } = await axios.post(
+      url + "/deleteWithdawalMethod",
+      {
+        methodId: id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const DeleteCoupon = async (id) => {
+  try {
+    const { data } = await axios.post(
+      url + "/deleteCoupon",
+      {
+        couponId: id,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
     );
     return data;
   } catch (err) {
