@@ -7,6 +7,7 @@ import { getCurrentDate, getISODate } from "../../util";
 const Usermanage = () => {
   const [date, setDate] = React.useState(getCurrentDate("-"));
   const [check, setCheck] = React.useState(false);
+  const [received, setReceived] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const [set, SetSet] = React.useState(0);
   const [limit, setLimit] = React.useState(10);
@@ -16,17 +17,22 @@ const Usermanage = () => {
     const fetchData = async () => {
       if (check) {
         const data = await GetUsers(getISODate(date), page, limit);
-        if (data.success && data.message === "Fetched Successfuly!")
+        if (data.success && data.message === "Fetched Successfuly!") {
           setData(data.data);
+          setReceived(true);
+        }
       } else {
         const data = await GetUsers(null, page, limit);
-        if (data.success && data.message === "Fetched Successfuly!")
+        if (data.success && data.message === "Fetched Successfuly!") {
           setData(data.data);
+          setReceived(true);
+        }
       }
     };
     fetchData();
     return () => {
       setData({ totalPages: 0, details: [] });
+      setReceived(false);
     };
   }, [date, page, limit, check]);
 
@@ -127,43 +133,50 @@ const Usermanage = () => {
         className="row m-3 p-3 mt-5"
         style={{ border: "0.5px solid #28318C", borderRadius: "20px" }}
       >
-        {data?.details.length > 0 ? (
+        {received ? (
           <>
-            <table className="table table-borderless ">
-              <thead style={{ borderBottom: "0.5px solid #28318C" }}>
-                <tr>
-                  <th scope="col">S.No</th>
-                  <th scope="col">User Name</th>
-                  <th scope="col">Phone Number</th>
-                  <th scope="col">E-mail</th>
-                  <th scope="col">Signup-Date</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.details.map((item, id) => (
-                  <tr key={item._id}>
-                    <th>{id + 1}</th>
-                    <td>{item?.name ? item?.name : "-"}</td>
-                    <td>{item?.number ? item?.number : "-"}</td>
-                    <td>{item?.email ? item.email : "-"}</td>
-                    <td>
-                      {item.createdAt
-                        .substring(0, 10)
-                        .split("-")
-                        .reverse()
-                        .join("-")}
-                    </td>
-                    <td
-                      style={{ color: item.isBlock ? "#B2180ECF" : "#28318C" ,cursor:"pointer"}}
-                      onClick={() => handleBlock(item?._id, item?.isBlock)}
-                    >
-                      {item.isBlock ? "Unblock" : "Block"}
-                    </td>
+            {data?.details.length > 0 ? (
+              <table className="table table-borderless ">
+                <thead style={{ borderBottom: "0.5px solid #28318C" }}>
+                  <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Signup-Date</th>
+                    <th scope="col">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {data?.details.map((item, id) => (
+                    <tr key={item._id}>
+                      <th>{id + 1}</th>
+                      <td>{item?.name ? item?.name : "-"}</td>
+                      <td>{item?.number ? item?.number : "-"}</td>
+                      <td>{item?.email ? item.email : "-"}</td>
+                      <td>
+                        {item.createdAt
+                          .substring(0, 10)
+                          .split("-")
+                          .reverse()
+                          .join("-")}
+                      </td>
+                      <td
+                        style={{
+                          color: item.isBlock ? "#B2180ECF" : "#28318C",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleBlock(item?._id, item?.isBlock)}
+                      >
+                        {item.isBlock ? "Unblock" : "Block"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="container-fluid my-5 h3 py-5 mx-auto text-center">No data</div>
+            )}
           </>
         ) : (
           <div style={{ margin: " 6em 0" }}>

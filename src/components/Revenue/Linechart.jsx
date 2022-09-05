@@ -12,14 +12,16 @@ import {
 import { Line } from "react-chartjs-2";
 import { GetRevenueGraph } from "../../api";
 
-const LineChart = () => {
+const LineChart = ({setAmount}) => {
   const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
       const data = await GetRevenueGraph();
-      if (data.success && data.message === "Fetched Successfuly!")
+      if (data.success && data.message === "Fetched Successfuly!"){
         setData(data.data);
+        setAmount(data.data.reduce((a,b)=>a+b))
+      }
     };
     fetchData();
   }, []);

@@ -10,23 +10,29 @@ const Transaction = () => {
   const [page, setPage] = React.useState(1);
   const [set, SetSet] = React.useState(0);
   const [limit, setLimit] = React.useState(10);
+  const [received, setReceived] = React.useState(false);
   const [data, setData] = React.useState({ totalPages: 0, details: [] });
 
   React.useEffect(() => {
     const fetchData = async () => {
       if (check) {
         const data = await GetDeposits(getISODate(date), page, limit);
-        if (data.success && data.message === "Fetched Successfuly!")
+        if (data.success && data.message === "Fetched Successfuly!") {
           setData(data.data);
+          setReceived(true);
+        }
       } else {
         const data = await GetDeposits(null, page, limit);
-        if (data.success && data.message === "Fetched Successfuly!")
+        if (data.success && data.message === "Fetched Successfuly!") {
           setData(data.data);
+          setReceived(true);
+        }
       }
     };
     fetchData();
     return () => {
       setData({ totalPages: 0, details: [] });
+      setReceived(false);
     };
   }, [date, page, limit, check]);
 
@@ -85,7 +91,7 @@ const Transaction = () => {
           className="col-6 ps-4"
           style={{ fontSize: "22px", fontWeight: "600", color: "#FF9933" }}
         >
-          Transaction Management
+          Deposits Management
         </div>
         <div className="col-6 d-flex flex-column justify-content-between align-items-end">
           <div
@@ -137,60 +143,66 @@ const Transaction = () => {
         className="row m-3 p-3 mt-5"
         style={{ border: "0.5px solid #28318C", borderRadius: "20px" }}
       >
-        {data?.details.length > 0 ? (
+        {received > 0 ? (
           <>
-            <table className="table table-borderless ">
-              <thead style={{ borderBottom: "0.5px solid #28318C" }}>
-                <tr>
-                  <th scope="col">S.No</th>
-                  <th scope="col">User Name</th>
-                  <th scope="col">Phone Number</th>
-                  <th scope="col">Transaction ID</th>
-                  <th scope="col">App</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.details.map((item, id) => (
-                  <tr key={item._id}>
-                    <th>{id + 1}</th>
-                    <td>{item?.name ? item?.name : "-"}</td>
-                    <td>{item?.number ? item?.number : "-"}</td>
-                    <td>{item.transactionId}</td>
-                    <td>{item?.app ? item?.app : "-"}</td>
-                    <td>
-                      {item.createdAt
-                        .substring(0, 10)
-                        .split("-")
-                        .reverse()
-                        .join("-")}
-                    </td>
-                    <td>Rs.{item?.amount}</td>
-                    <td
-                      style={{ fontWeight: "500" }}
-                      // onClick={() => handleBlock(item?._id, item?.isBlock)}
-                    >
-                      <span
-                        style={{ color: "#28318C", cursor: "pointer" }}
-                        onClick={() => handleRejection(item._id)}
-                      >
-                        Block{" "}
-                      </span>{" "}
-                      |{" "}
-                      <span
-                        style={{ color: "#06CB03", cursor: "pointer" }}
-                        onClick={() => handleApproval(item._id)}
-                      >
-                        {" "}
-                        Approve
-                      </span>
-                    </td>
+            {data?.details.length > 0 ? (
+              <table className="table table-borderless ">
+                <thead style={{ borderBottom: "0.5px solid #28318C" }}>
+                  <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Transaction ID</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {data?.details.map((item, id) => (
+                    <tr key={item._id}>
+                      <th>{id + 1}</th>
+                      <td>{item?.name ? item?.name : "-"}</td>
+                      <td>{item?.number ? item?.number : "-"}</td>
+                      <td>{item.transactionId}</td>
+                      <td>{item?.method ? item?.method : "-"}</td>
+                      <td>
+                        {item.createdAt
+                          .substring(0, 10)
+                          .split("-")
+                          .reverse()
+                          .join("-")}
+                      </td>
+                      <td>$ {item?.amount}</td>
+                      <td
+                        style={{ fontWeight: "500" }}
+                        // onClick={() => handleBlock(item?._id, item?.isBlock)}
+                      >
+                        <span
+                          style={{ color: "#28318C", cursor: "pointer" }}
+                          onClick={() => handleRejection(item._id)}
+                        >
+                          Reject{" "}
+                        </span>{" "}
+                        |{" "}
+                        <span
+                          style={{ color: "#06CB03", cursor: "pointer" }}
+                          onClick={() => handleApproval(item._id)}
+                        >
+                          {" "}
+                          Approve
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="container-fluid my-5 h3 py-5 mx-auto text-center">
+                No data
+              </div>
+            )}
           </>
         ) : (
           <div style={{ margin: " 6em 0" }}>

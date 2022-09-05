@@ -3,7 +3,7 @@ import { FaCoins } from "react-icons/fa";
 import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 import LineChart from "./Linechart";
 import { getCurrentDate, getISODate } from "../../util";
-import { GetRevenue } from "../../api";
+import { GetRevenue, GetDashboard } from "../../api";
 
 const Revenue = () => {
   const [date, setDate] = React.useState(getCurrentDate("-"));
@@ -11,23 +11,42 @@ const Revenue = () => {
   const [page, setPage] = React.useState(1);
   const [set, SetSet] = React.useState(0);
   const [limit, setLimit] = React.useState(10);
+  const [received, setReceived] = React.useState(false);
+  const [amount, setAmount] = React.useState(0);
   const [data, setData] = React.useState({ totalPages: 0, details: [] });
+  const [dashData, setDashData] = React.useState({
+    totalDeposits: 0,
+    totalRevenue: 0,
+    totalWithdawals: 0,
+    users: 0,
+  });
 
   React.useEffect(() => {
     const fetchData = async () => {
       if (check) {
         const data = await GetRevenue(getISODate(date), page, limit);
-        if (data.success && data.message === "Fetched Successfuly!")
+        if (data.success && data.message === "Fetched Successfuly!") {
           setData(data.data);
+          setReceived(true);
+        }
+        const data1 = await GetDashboard(getISODate(date));
+        if (data1.success && data1.message === "Fetched Successfuly!")
+          setDashData(data1.data);
       } else {
         const data = await GetRevenue(null, page, limit);
-        if (data.success && data.message === "Fetched Successfuly!")
+        if (data.success && data.message === "Fetched Successfuly!") {
           setData(data.data);
+          setReceived(true);
+        }
+        const data1 = await GetDashboard(null);
+        if (data1.success && data1.message === "Fetched Successfuly!")
+          setDashData(data1.data);
       }
     };
     fetchData();
     return () => {
       setData({ totalPages: 0, details: [] });
+      setReceived(false);
     };
   }, [date, page, limit, check]);
 
@@ -92,7 +111,7 @@ const Revenue = () => {
               >
                 <FaCoins size={18} />
               </div>{" "}
-              <div> 120068</div>
+              <div>$ {dashData?.totalRevenue}</div>
             </div>
           </div>
           <div
@@ -122,7 +141,7 @@ const Revenue = () => {
               >
                 <FaCoins size={18} />
               </div>{" "}
-              <div> 120068</div>
+              <div>$ {dashData?.totalDeposits}</div>
             </div>
           </div>
           <div
@@ -152,7 +171,7 @@ const Revenue = () => {
               >
                 <FaCoins size={18} />
               </div>
-              <div> 120068</div>
+              <div>$ {dashData?.totalWithdawals}</div>
             </div>
           </div>
         </div>
@@ -191,36 +210,40 @@ const Revenue = () => {
         className="row m-3 p-3 mt-4"
         style={{ border: "0.5px solid #28318C", borderRadius: "20px" }}
       >
-        {data?.details.length > 0 ? (
+        {received ? (
           <>
-            <table className="table table-borderless ">
-              <thead style={{ borderBottom: "0.5px solid #28318C" }}>
-                <tr>
-                  <th scope="col">S.No</th>
-                  <th scope="col">User Name</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Game</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.details.map((item, id) => (
-                  <tr key={item._id}>
-                    <th>{id + 1}</th>
-                    <td>{item?.name ? item?.name : "-"}</td>
-                    <td>
-                      {item.createdAt
-                        .substring(0, 10)
-                        .split("-")
-                        .reverse()
-                        .join("-")}
-                    </td>
-                    <td>Rs.{item?.amount}</td>
-                    <td>{item?.app ? item?.app : "-"}</td>
+            {data?.details.length > 0 ? (
+              <table className="table table-borderless ">
+                <thead style={{ borderBottom: "0.5px solid #28318C" }}>
+                  <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {data?.details.map((item, id) => (
+                    <tr key={item._id}>
+                      <th>{id + 1}</th>
+                      <td>{item?.name ? item?.name : "-"}</td>
+                      <td>
+                        {item.createdAt
+                          .substring(0, 10)
+                          .split("-")
+                          .reverse()
+                          .join("-")}
+                      </td>
+                      <td>$ {item?.amount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="container-fluid my-5 h3 py-5 mx-auto text-center">
+                No data
+              </div>
+            )}
           </>
         ) : (
           <div style={{ margin: " 6em 0" }}>
@@ -286,10 +309,10 @@ const Revenue = () => {
         className="row ms-4"
         style={{ color: "#FF9933", fontSize: "22px", fontWeight: "500" }}
       >
-        1 Lakh
+        $ {amount}
       </div>
       <div className="row p-3 border m-4">
-        <LineChart />
+        <LineChart setAmount={setAmount} />
       </div>
     </div>
   );

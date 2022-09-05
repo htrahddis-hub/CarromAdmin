@@ -52,8 +52,12 @@ const Upload = () => {
       const url = await getDownloadURL(next.ref);
       let input;
       if (choice === "Top Banner") input = { top: url };
-      if (choice === "Carrom Thumbnail") input = { carom: url };
-      if (choice === "Spin Thumbnail") input = { spin: url };
+      if (choice === "Game1 Thumbnail") input = { game1: fileURL };
+      if (choice === "Game2 Thumbnail") input = { game2: fileURL };
+      if (choice === "Game3 Thumbnail") input = { game3: fileURL };
+      if (choice === "Game4 Thumbnail") input = { game4: fileURL };
+      if (choice === "Game5 Thumbnail") input = { game5: fileURL };
+      if (choice === "Game6 Thumbnail") input = { game6: fileURL };
       if (choice === "Bottom Banner") input = { bottom: url };
       const data1 = await UpdateUploads(data._id, input);
       if (data1.success && data1.message === "Updated Successfuly!") {
@@ -64,8 +68,12 @@ const Upload = () => {
     } else {
       let input;
       if (choice === "Top Banner") input = { top: fileURL };
-      if (choice === "Carrom Thumbnail") input = { carom: fileURL };
-      if (choice === "Spin Thumbnail") input = { spin: fileURL };
+      if (choice === "Game1 Thumbnail") input = { game1: fileURL };
+      if (choice === "Game2 Thumbnail") input = { game2: fileURL };
+      if (choice === "Game3 Thumbnail") input = { game3: fileURL };
+      if (choice === "Game4 Thumbnail") input = { game4: fileURL };
+      if (choice === "Game5 Thumbnail") input = { game5: fileURL };
+      if (choice === "Game6 Thumbnail") input = { game6: fileURL };
       if (choice === "Bottom Banner") input = { bottom: fileURL };
       const data1 = await UpdateUploads(data._id, input);
       if (data1.success && data1.message === "Updated Successfuly!") {
@@ -103,38 +111,42 @@ const Upload = () => {
           </button>
           <ul class="dropdown-menu" style={{ width: "350px" }}>
             <li>
-              <p
-                class="dropdown-item "
-                onClick={handleChoice}
-                name="Top Banner"
-              >
+              <p class="dropdown-item " onClick={handleChoice}>
                 Top Banner
               </p>
             </li>
             <li>
-              <p
-                class="dropdown-item"
-                onClick={handleChoice}
-                name="Carrom Thumbnail"
-              >
-                Carrom Thumbnail
+              <p class="dropdown-item" onClick={handleChoice}>
+                Game1 Thumbnail
               </p>
             </li>
             <li>
-              <p
-                class="dropdown-item"
-                onClick={handleChoice}
-                name="Spin Thumbnail"
-              >
-                Spin Thumbnail
+              <p class="dropdown-item" onClick={handleChoice}>
+                Game2 Thumbnail
               </p>
             </li>
             <li>
-              <p
-                class="dropdown-item"
-                onClick={handleChoice}
-                name="Bottom Banner"
-              >
+              <p class="dropdown-item" onClick={handleChoice}>
+                Game3 Thumbnail
+              </p>
+            </li>
+            <li>
+              <p class="dropdown-item" onClick={handleChoice}>
+                Game4 Thumbnail
+              </p>
+            </li>
+            <li>
+              <p class="dropdown-item" onClick={handleChoice}>
+                Game5 Thumbnail
+              </p>
+            </li>
+            <li>
+              <p class="dropdown-item" onClick={handleChoice}>
+                Game6 Thumbnail
+              </p>
+            </li>
+            <li>
+              <p class="dropdown-item" onClick={handleChoice}>
                 Bottom Banner
               </p>
             </li>
@@ -201,7 +213,10 @@ const Upload = () => {
       </div>
       <div className="row mb-3" style={{ fontSize: "20px", fontWeight: "600" }}>
         Uploaded
-        <div className="d-flex mb-4">
+        <div
+          className="d-flex mb-4"
+          style={{ overflow: "auto", width: "100%" }}
+        >
           <div className="d-flex flex-column p-3 border mt-3 me-3 justify-content-between align-items-center">
             <img
               src={data?.top}
@@ -220,19 +235,51 @@ const Upload = () => {
           </div>
           <div className="d-flex flex-column p-3 border mt-3 me-3 justify-content-between align-items-center">
             <img
-              src={data?.carom}
+              src={data?.game1}
               alt="no img found"
               style={{ borderRadius: "8px", width: "215px", height: "auto" }}
             />
-            <div>Carrom Thumbnail</div>
+            <div>Game 1 Thumbnail</div>
           </div>
           <div className="d-flex flex-column p-3 border mt-3 me-3 justify-content-between align-items-center">
             <img
-              src={data?.spin}
+              src={data?.game2}
               alt="no img found"
               style={{ borderRadius: "8px", width: "215px", height: "auto" }}
             />
-            <div>Spin Thumbnail</div>
+            <div>Game 2 Thumbnail</div>
+          </div>
+          <div className="d-flex flex-column p-3 border mt-3 me-3 justify-content-between align-items-center">
+            <img
+              src={data?.game3}
+              alt="no img found"
+              style={{ borderRadius: "8px", width: "215px", height: "auto" }}
+            />
+            <div>Game 3 Thumbnail</div>
+          </div>
+          <div className="d-flex flex-column p-3 border mt-3 me-3 justify-content-between align-items-center">
+            <img
+              src={data?.game4}
+              alt="no img found"
+              style={{ borderRadius: "8px", width: "215px", height: "auto" }}
+            />
+            <div>Game 4 Thumbnail</div>
+          </div>
+          <div className="d-flex flex-column p-3 border mt-3 me-3 justify-content-between align-items-center">
+            <img
+              src={data?.game5}
+              alt="no img found"
+              style={{ borderRadius: "8px", width: "215px", height: "auto" }}
+            />
+            <div>Game 5 Thumbnail</div>
+          </div>
+          <div className="d-flex flex-column p-3 border mt-3 me-3 justify-content-between align-items-center">
+            <img
+              src={data?.game6}
+              alt="no img found"
+              style={{ borderRadius: "8px", width: "215px", height: "auto" }}
+            />
+            <div>Game 6 Thumbnail</div>
           </div>
         </div>
       </div>

@@ -22,19 +22,19 @@ const Header = () => {
       className="navbar fixed-top d-flex justify-content-end align-items-center"
       style={{
         position: "fixed",
-        left: "17%",
-        height: "80px",
-        paddingTop: "10px",
-        paddingBottom: "10px",
-        marginRight: "40px",
+        left: "16.67%",
+        height: "50px",
+        paddingTop: "5px",
+        marginRight: "18px",
         background: "white",
+        boxShadow: "0 1px 0  rgba(0, 0, 0, 0.1)",
       }}
     >
       <div
         className="me-3"
         style={{
           color: "#FF9933",
-          fontSize: "20px",
+          fontSize: "16px",
           fontWeight: "400",
         }}
       >
@@ -44,11 +44,11 @@ const Header = () => {
         style={{ marginRight: "20px" }}
         src={img}
         alt="no img"
-        height="50px"
-        width="50px"
+        height="35px"
+        width="35px"
       />
       <BiLogOut
-        size={32}
+        size={24}
         style={{ marginRight: "80px", cursor: "pointer" }}
         onClick={handleLogout}
       />

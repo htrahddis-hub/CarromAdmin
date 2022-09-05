@@ -40,7 +40,7 @@ const button = [
   {
     url: "/deposit",
     icon: <FaCoins size={25} />,
-    title: "Transaction Mnagment",
+    title: "Deposits Mnagment",
     active: false,
     id: 4,
   },
@@ -68,7 +68,7 @@ const button = [
   {
     url: "/content",
     icon: <FaCoins size={25} />,
-    title: "Content",
+    title: "FAQ",
     active: false,
     id: 8,
   },

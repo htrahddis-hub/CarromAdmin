@@ -1,33 +1,42 @@
 import React from "react";
-import { AiOutlineSearch } from "react-icons/ai";
 import { FaCoins } from "react-icons/fa";
 import "./dashboard.css";
 import { GetDashboard } from "../../api";
-
-const Dateinmonth = () => {
-  const dt = new Date();
-  const month = dt.getMonth();
-  const year = dt.getFullYear();
-  return `${year}${"-"}${month < 10 ? `0${month + 1}` : `${month + 1}`}`;
-};
+import { getCurrentDate, getISODate } from "../../util";
 
 const Dashboard = () => {
-  const [date, setDate] = React.useState(Dateinmonth());
-  const [dashData, setDashSata] = React.useState({
+  const [date, setDate] = React.useState(getCurrentDate("-"));
+  const [check, setCheck] = React.useState(false);
+  const [dashData, setDashData] = React.useState({
     totalDeposits: 0,
     totalRevenue: 0,
     totalWithdawals: 0,
-    users:0
+    users: 0,
   });
 
-  React.useState(() => {
+  React.useEffect(() => {
     const fetchData = async () => {
-      const data = await GetDashboard();
-      if (data.success && data.message === "Fetched Successfuly!")
-        setDashSata(data.data);
+      if (check) {
+        const data = await GetDashboard(getISODate(date));
+        if (data.success && data.message === "Fetched Successfuly!")
+          setDashData(data.data);
+      } else {
+        const data = await GetDashboard(null);
+        if (data.success && data.message === "Fetched Successfuly!")
+          setDashData(data.data);
+      }
     };
     fetchData();
-  }, []);
+  }, [check, date]);
+
+  const handleChange = (e) => {
+    setDate(e.target.value);
+  };
+
+  const handleCheck = (e) => {
+    setCheck(e.target.checked);
+    console.log(check);
+  };
 
   return (
     <div className="container-fluid">
@@ -51,34 +60,39 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="d-flex col-6 flex-column justify-content-between align-items-end">
-          <div
-            className="d-flex justify-content-end py-2 pe-2 ps-4"
-            style={{ border: "1px solid #FF9933", borderRadius: "5px" }}
-          >
-            <AiOutlineSearch size={25} style={{ color: "#FF9933" }} />
-            <input
-              className="ps-3 input-no-border"
-              style={{ border: "none", color: "#FF9933" }}
-              placeholder="Search"
-            />
-          </div>
-          <input
-            type="month"
-            style={{
-              border: "none",
-              fontSize: "20px",
-              width: "180px",
-              fontWeight: "500",
-            }}
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
       </div>
       <div className="row mt-4 ms-1">
-        <div style={{ color: "#FF9933", fontSize: "22px", fontWeight: "500" }}>
-          Revenue
+        <div className="d-flex justify-content-between mb-3 align-items-center">
+          <div
+            style={{ color: "#FF9933", fontSize: "22px", fontWeight: "500" }}
+          >
+            Revenue
+          </div>
+          <div className="d-flex align-items-center">
+            <div className="form-check me-5">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={check}
+                id="datecheck"
+                onChange={handleCheck}
+              />
+              <label className="form-check-label" htmlFor="datecheck">
+                At date
+              </label>
+            </div>
+            <input
+              type="date"
+              style={{
+                border: "none",
+                fontSize: "20px",
+                width: "160px",
+                fontWeight: "500",
+              }}
+              value={date}
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <div className="d-flex justify-content-start mt-3">
           <div
@@ -108,7 +122,7 @@ const Dashboard = () => {
               >
                 <FaCoins size={20} />
               </div>{" "}
-              <div>₹ {dashData.totalRevenue}</div>
+              <div>$ {dashData.totalRevenue}</div>
             </div>
           </div>
           <div
@@ -138,7 +152,7 @@ const Dashboard = () => {
               >
                 <FaCoins size={20} />
               </div>{" "}
-              <div>₹ {dashData.totalDeposits}</div>
+              <div>$ {dashData.totalDeposits}</div>
             </div>
           </div>
           <div
@@ -168,7 +182,7 @@ const Dashboard = () => {
               >
                 <FaCoins size={20} />
               </div>
-              <div>₹ {dashData.totalWithdawals}</div>
+              <div>$ {dashData.totalWithdawals}</div>
             </div>
           </div>
         </div>

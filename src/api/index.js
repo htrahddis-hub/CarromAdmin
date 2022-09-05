@@ -17,9 +17,10 @@ export const LoginAdmin = async (email, password) => {
   }
 };
 
-export const GetDashboard = async () => {
+export const GetDashboard = async (date) => {
   try {
     const { data } = await axios.get(url + "/dashboard", {
+      params: { date: date },
       headers: { Authorization: `Bearer ${token}` },
     });
     return data;
