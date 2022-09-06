@@ -1,8 +1,10 @@
 import React from "react";
 import {
+  AddChatOption,
   AddCoupon,
   AddDeposit,
   AddWithdrawal,
+  DeleteChat,
   DeleteCoupon,
   DeleteDeposit,
   DeleteWithdrawal,
@@ -10,7 +12,7 @@ import {
   UpdateControls,
 } from "../../api";
 import Modal from "react-modal";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineDelete } from "react-icons/ai";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
@@ -36,8 +38,10 @@ const Control = () => {
   const [modalIsOpen1, setIsOpen1] = React.useState(false);
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
   const [modalIsOpen3, setIsOpen3] = React.useState(false);
+  const [modalIsOpen4, setIsOpen4] = React.useState(false);
   const [img, setImg] = React.useState("");
   const [input, setInput] = React.useState({ deposit: "", withdawal: "" });
+  const [inputChat, setInputChat] = React.useState({ option: "" });
   const [fileDeposit, setFileDeposit] = React.useState();
   const [fileWithdrawal, setFileWithdrawal] = React.useState();
   const [inputCoupon, setInputCoupon] = React.useState({
@@ -69,7 +73,7 @@ const Control = () => {
         setControlData(data.data);
     };
     fetchData();
-  }, [modalIsOpen]);
+  }, [modalIsOpen, modalIsOpen1, modalIsOpen2, modalIsOpen3, modalIsOpen4]);
 
   const handleSave = async () => {
     const data = await UpdateControls({ ...controlData, id: controlData._id });
@@ -110,8 +114,13 @@ const Control = () => {
   const handleImageDeposit = (event) => {
     setFileDeposit(event.target.files[0]);
   };
+
   const handleImageWithdrawal = (event) => {
     setFileWithdrawal(event.target.files[0]);
+  };
+
+  const handleInputChat = (e) => {
+    setInputChat({ option: e.target.value });
   };
 
   const handleAddDeposit = async (event) => {
@@ -169,6 +178,17 @@ const Control = () => {
     }
   };
 
+  const handleAddChat = async (event) => {
+    event.preventDefault();
+    const data = await AddChatOption(inputChat);
+    if (data.success && data.message === "Added Successfuly!") {
+      setInputCoupon({
+        option: "",
+      });
+      closeModalChat();
+    }
+  };
+
   const handleDeleteDeposit = async (id) => {
     const data = await DeleteDeposit(id);
     if (data.success && data.message === "Deleted Successfuly!") {
@@ -195,6 +215,16 @@ const Control = () => {
       setControlData((old) => {
         const deposit = old.coupons.filter((item) => item?._id !== id);
         return { ...old, coupons: deposit };
+      });
+    }
+  };
+
+  const handleDeleteChat = async (item) => {
+    const data = await DeleteChat(item);
+    if (data.success && data.message === "Deleted Successfuly!") {
+      setControlData((old) => {
+        const deposit = old.chatOptions.filter((item1) => item1 !== item);
+        return { ...old, chatOptions: deposit };
       });
     }
   };
@@ -231,6 +261,14 @@ const Control = () => {
     setIsOpen3(false);
   }
 
+  function openModalChat() {
+    setIsOpen4(true);
+  }
+
+  function closeModalChat() {
+    setIsOpen4(false);
+  }
+
   const handleModalwithdrawal = () => {
     openModalWithdrawal();
   };
@@ -246,6 +284,10 @@ const Control = () => {
   const handleImageModal = (img) => {
     setImg(img);
     openModalImage();
+  };
+
+  const handleModalChat = () => {
+    openModalChat();
   };
 
   return (
@@ -446,6 +488,45 @@ const Control = () => {
           </div>
         </div>
       </Modal>
+      <Modal
+        isOpen={modalIsOpen4}
+        onRequestClose={closeModalChat}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <div>
+          <div className="d-flex justify-content-end">
+            <button
+              onClick={closeModalChat}
+              style={{ border: "none", backgroundColor: "white" }}
+            >
+              <span>
+                <AiOutlineClose size={18} />
+              </span>
+            </button>
+          </div>
+          <form onSubmit={handleAddChat}>
+            <div className="mb-3">
+              <label htmlFor="Coins">Chat option</label>
+              <input
+                type="text"
+                className="form-control mt-3"
+                id="Coins"
+                aria-describedby="Entry Fees"
+                name="option"
+                value={inputChat?.option}
+                onChange={handleInputChat}
+                required
+              />
+            </div>
+            <div className="d-flex justify-content-center">
+              <button type="submit" className="button-style">
+                Add
+              </button>
+            </div>
+          </form>
+        </div>
+      </Modal>
       <div className="mt-5 pt-5"></div>
       <div
         className="row"
@@ -525,7 +606,10 @@ const Control = () => {
                 </div>
                 <div className="d-flex pt-2 justify-content-between flex-wrap">
                   {controlData?.depositMethods.map((item, id) => (
-                    <div className="d-flex align-items-center px-3 py-2" key={item?._id}>
+                    <div
+                      className="d-flex align-items-center px-3 py-2"
+                      key={item?._id}
+                    >
                       <div>{id + 1}.</div>
                       <div
                         style={{
@@ -536,7 +620,11 @@ const Control = () => {
                         }}
                         onClick={() => handleImageModal(item?.image)}
                       >
-                        {item?.name}
+                        {item?.name}{" "}
+                        <AiOutlineDelete
+                          className="ms-2"
+                          onClick={() => handleDeleteDeposit(item?._id)}
+                        />
                       </div>
                     </div>
                   ))}
@@ -622,7 +710,10 @@ const Control = () => {
                 </div>
                 <div className="d-flex pt-2 justify-content-between flex-wrap">
                   {controlData?.withdawalMethods.map((item, id) => (
-                    <div className="d-flex align-items-center px-3 py-2" key={item?._id}>
+                    <div
+                      className="d-flex align-items-center px-3 py-2"
+                      key={item?._id}
+                    >
                       <div>{id + 1}.</div>
                       <div
                         style={{
@@ -632,7 +723,11 @@ const Control = () => {
                         }}
                         onClick={() => handleImageModal(item?.image)}
                       >
-                        {item?.name}
+                        {item?.name}{" "}
+                        <AiOutlineDelete
+                          className="ms-2"
+                          onClick={() => handleDeleteWithdrawal(item?._id)}
+                        />
                       </div>
                     </div>
                   ))}
@@ -929,9 +1024,14 @@ const Control = () => {
                 borderRadius: "15px",
                 width: "230px",
               }}
+              key={item?._id}
             >
               <div style={{ fontSize: "23px", fontWeight: "600" }}>
-                {item?.name}
+                {item?.name}{" "}
+                <AiOutlineDelete
+                  className="ms-2"
+                  onClick={() => handleDeleteCoupon(item?._id)}
+                />
               </div>
 
               <div>
@@ -1041,6 +1141,59 @@ const Control = () => {
                 onChange={handleChangeControl}
                 value={controlData.chatLink}
               />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div style={{ fontSize: "22px", fontWeight: "550" }}>Add to Cash</div>
+        <div className="d-flex justify-content-start my-4 align-items-center">
+          <div
+            className="d-flex flex-column align-items-start me-5 p-3"
+            style={{
+              boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.25)",
+              borderRadius: "15px",
+              width: "300px",
+            }}
+          >
+            <div className="" style={{ width: "260px" }}>
+              <div
+                className="d-flex"
+                style={{
+                  fontSize: "18px",
+                  color: "#6A6A6A",
+                  fontWeight: "500",
+                }}
+              >
+                <div>Payment Method</div>
+                <div
+                  className="ms-3 d-flex justify-content-center align-items-center addsymbol"
+                  onClick={handleModalChat}
+                >
+                  +
+                </div>
+              </div>
+              <div className="d-flex pt-2 justify-content-between flex-wrap">
+                {controlData?.chatOptions.map((item, id) => (
+                  <div className="d-flex align-items-center px-3 py-2" key={id}>
+                    <div>{id + 1}.</div>
+                    <div
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "600",
+                        marginLeft: "7px",
+                      }}
+                    >
+                      {item}{" "}
+                      <AiOutlineDelete
+                        className="ms-2"
+                        onClick={() => handleDeleteChat(item)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

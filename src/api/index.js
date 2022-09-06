@@ -515,3 +515,33 @@ export const DeleteCoupon = async (id) => {
     console.log(err);
   }
 };
+
+export const AddChatOption = async (input) => {
+  try {
+    const { data } = await axios.post(
+      url + "/addChatOption",
+      {
+        ...input
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const DeleteChat = async (input) => {
+  try {
+    const { data } = await axios.post(
+      url + "/deleteChatOption",
+      {
+        option: input,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
